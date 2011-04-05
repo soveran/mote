@@ -64,7 +64,7 @@ free to include it in your code. To do it, just type:
 
 Here are the available helpers:
 
-## `mote`
+## mote
 
 The `mote` helper receives a template string and returns the rendered version
 of it:
@@ -75,13 +75,12 @@ It works with parameters too:
 
     assert_equal "1 2 3", mote("1 <%= params[:n] %> 3", :n => 2)
 
-## `mote_file`
+## mote_file
 
-The `mote_file` helper receives a file name without the `.erb` extension and
-returns the rendered version of its content. The compiled template is cached
-for subsequent calls.
+The `mote_file` helper receives a file name and returns the rendered version of
+its content. The compiled template is cached for subsequent calls.
 
-    assert_equal "***\n", mote_file("test/basic", :n => 3)
+    assert_equal "***\n", mote_file("test/basic.erb", :n => 3)
 
 Installation
 ------------
