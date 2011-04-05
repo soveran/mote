@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 class Mote
-  VERSION = "0.0.1"
+  VERSION = "0.0.1.rc1"
 
   def self.parse(template, context = self)
     terms = template.split(/(<%[=#]?)\s*(.*?)\s*%>/)
