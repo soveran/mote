@@ -86,7 +86,7 @@ for subsequent calls.
 Installation
 ------------
 
-    $ gem install mote
+    $ gem install mote --pre
 
 License
 -------
