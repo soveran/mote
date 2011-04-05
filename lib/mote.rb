@@ -41,13 +41,21 @@ class Mote
 
   module Helpers
     def mote(template, params = {})
-      Mote.parse(template).call(params)
+      mote_cache[template] ||= Mote.parse(template)
+      mote_cache[template][params]
     end
 
-    def mote_file(file_name, params = {})
-      @_mote ||= {}
-      @_mote[file_name] ||= Mote.parse(File.read("#{file_name}.erb"))
-      @_mote[file_name][params]
+    def mote_file(filename, params = {})
+      mote_files[filename] ||= Mote.parse(File.read("#{filename}.erb"))
+      mote_files[filename][params]
+    end
+
+    def mote_cache
+      @_mote_cache ||= {}
+    end
+
+    def mote_files
+      @_mote_files ||= {}
     end
   end
 end
