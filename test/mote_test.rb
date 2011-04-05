@@ -26,6 +26,11 @@ scope do
     assert_equal "***", example[:n => 3]
     assert_equal "****", example[:n => 4]
   end
+
+  test "multiline" do
+    example = Mote.parse("The\nMan\nAnd\n<%=\n\"The\"\n%>\nSea")
+    assert_equal "The\nMan\nAnd\nThe\nSea", example[:n => 3]
+  end
 end
 
 include Mote::Helpers
