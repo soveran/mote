@@ -46,7 +46,7 @@ class Mote
     end
 
     def mote_file(filename, params = {})
-      mote_files[filename] ||= Mote.parse(File.read("#{filename}.erb"))
+      mote_files[filename] ||= Mote.parse(File.read(filename))
       mote_files[filename][params]
     end
 

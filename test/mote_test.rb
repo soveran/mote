@@ -45,6 +45,6 @@ scope do
   end
 
   test do
-    assert_equal "***\n", mote_file("test/basic", :n => 3)
+    assert_equal "***\n", mote_file("test/basic.erb", :n => 3)
   end
 end
