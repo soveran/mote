@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
     "*.gemspec",
     "test/**/*.rb"
   ]
-  s.add_development_dependency "cutest", "~> 0.1"
+  s.add_development_dependency "cutest"
 end
