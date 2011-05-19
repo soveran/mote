@@ -30,7 +30,7 @@ class Mote
       when "<%#" then terms.shift # skip
       when "<%"  then parts << "#{terms.shift}\n"
       when "<%=" then parts << "__o << (#{terms.shift}).to_s\n"
-      else            parts << "__o << '#{term}'\n"
+      else            parts << "__o << #{term.inspect}\n"
       end
     end
 

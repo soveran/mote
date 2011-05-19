@@ -31,6 +31,11 @@ scope do
     example = Mote.parse("The\nMan\nAnd\n<%=\n\"The\"\n%>\nSea")
     assert_equal "The\nMan\nAnd\nThe\nSea", example[:n => 3]
   end
+
+  test "quotes" do
+    example = Mote.parse("'foo' 'bar' 'baz'")
+    assert_equal "'foo' 'bar' 'baz'", example.call
+  end
 end
 
 include Mote::Helpers
