@@ -85,7 +85,7 @@ its content. The compiled template is cached for subsequent calls.
 Installation
 ------------
 
-    $ gem install mote --pre
+    $ gem install mote
 
 License
 -------
