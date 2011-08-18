@@ -67,4 +67,35 @@ scope do
   test do
     assert_equal "***\n", mote_file("test/basic.erb", :n => 3)
   end
+
+  test do
+    context = Object.new
+    context.instance_variable_set(:@user, "Bruno")
+    context.extend(Mote::Helpers)
+
+    assert_equal "Bruno", context.mote("<%= @user %>")
+  end
+
+  test do
+    context = Object.new
+    context.extend(Mote::Helpers)
+
+    assert_equal "Bruno", context.mote("<%= user %>", user: "Bruno")
+    assert_equal "Brutus", context.mote("<%= user %>", user: "Brutus")
+  end
+
+  test do
+    context = Object.new
+    context.extend(Mote::Helpers)
+
+    context.instance_variable_set(:@user, "Bruno")
+
+    assert_equal "\n  Bruno rhymes with Piano\n\n",
+      context.mote_file("./test/complex.html.mote")
+
+    context.instance_variable_set(:@user, "Brutus")
+
+    assert_equal "\n  Brutus rhymes with Opus\n\n",
+      context.mote_file("./test/complex.html.mote")
+  end
 end
