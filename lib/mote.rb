@@ -20,10 +20,12 @@
 class Mote
   VERSION = "0.0.2"
 
-  def self.parse(template, context = self)
+  def self.parse(template, context = self, vars = [])
     terms = template.split(/(<%[=#]?)\s*(.*?)\s*%>/)
 
     parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
+
+    vars.each { |var| parts += "#{var} = params[:#{var}]; " }
 
     while term = terms.shift
       case term

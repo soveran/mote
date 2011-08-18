@@ -36,6 +36,21 @@ scope do
     example = Mote.parse("'foo' 'bar' 'baz'")
     assert_equal "'foo' 'bar' 'baz'", example.call
   end
+
+  test "context" do
+    context = Object.new
+    context.instance_variable_set(:@user, "Bruno")
+
+    example = Mote.parse("<%= @user %>", context)
+    assert_equal "Bruno", example.call
+  end
+
+  test "locals" do
+    context = Object.new
+
+    example = Mote.parse("<%= user %>", context, [:user])
+    assert_equal "Bruno", example.call(user: "Bruno")
+  end
 end
 
 include Mote::Helpers
