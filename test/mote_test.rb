@@ -2,33 +2,59 @@ require File.expand_path("../lib/mote", File.dirname(__FILE__))
 
 scope do
   test "assignment" do
-    example = Mote.parse("<%= \"***\" %>")
+    example = Mote.parse("${ \"***\" }")
     assert_equal "***", example.call
   end
 
   test "comment" do
-    example = Mote.parse("*<%# \"*\" %>*")
-    assert_equal "**", example.call
+    template = (<<-EOT).gsub(/ {4}/, "")
+    *
+    % # "*"
+    *
+    EOT
+
+    example = Mote.parse(template)
+    assert_equal "*\n*\n", example.call.squeeze("\n")
   end
 
   test "control flow" do
-    example = Mote.parse("<% if false %>*<% else %>***<% end %>")
-    assert_equal "***", example.call
+    template = (<<-EOT).gsub(/ {4}/, "")
+    % if false
+      *
+    % else
+      ***
+    % end
+    EOT
+
+    example = Mote.parse(template)
+    assert_equal "\n  ***\n\n", example.call
   end
 
   test "block evaluation" do
-    example = Mote.parse("<% 3.times { %>*<% } %>")
-    assert_equal "***", example.call
+    template = (<<-EOT).gsub(/ {4}/, "")
+    % 3.times {
+    *
+    % }
+    EOT
+
+    example = Mote.parse(template)
+    assert_equal "\n*\n\n*\n\n*\n\n", example.call
   end
 
   test "parameters" do
-    example = Mote.parse("<% params[:n].times { %>*<% } %>")
-    assert_equal "***", example[:n => 3]
-    assert_equal "****", example[:n => 4]
+    template = (<<-EOT).gsub(/ {4}/, "")
+    % params[:n].times {
+    *
+    % }
+    EOT
+
+    example = Mote.parse(template)
+    assert_equal "\n*\n\n*\n\n*\n\n", example[:n => 3]
+    assert_equal "\n*\n\n*\n\n*\n\n*\n\n", example[:n => 4]
   end
 
   test "multiline" do
-    example = Mote.parse("The\nMan\nAnd\n<%=\n\"The\"\n%>\nSea")
+    example = Mote.parse("The\nMan\nAnd\n${\"The\"}\nSea")
     assert_equal "The\nMan\nAnd\nThe\nSea", example[:n => 3]
   end
 
@@ -41,14 +67,14 @@ scope do
     context = Object.new
     context.instance_variable_set(:@user, "Bruno")
 
-    example = Mote.parse("<%= @user %>", context)
+    example = Mote.parse("${ @user }", context)
     assert_equal "Bruno", example.call
   end
 
   test "locals" do
     context = Object.new
 
-    example = Mote.parse("<%= user %>", context, [:user])
+    example = Mote.parse("${ user }", context, [:user])
     assert_equal "Bruno", example.call(user: "Bruno")
   end
 end
@@ -57,15 +83,15 @@ include Mote::Helpers
 
 scope do
   test do
-    assert_equal "1 2 3", mote("1 <%= 2 %> 3")
+    assert_equal "1 2 3", mote("1 ${ 2 } 3")
   end
 
   test do
-    assert_equal "1 2 3", mote("1 <%= params[:n] %> 3", :n => 2)
+    assert_equal "1 2 3", mote("1 ${ params[:n] } 3", :n => 2)
   end
 
   test do
-    assert_equal "***\n", mote_file("test/basic.erb", :n => 3)
+    assert_equal "\n  *\n\n  *\n\n  *\n\n", mote_file("test/basic.erb", :n => 3)
   end
 
   test do
@@ -73,15 +99,15 @@ scope do
     context.instance_variable_set(:@user, "Bruno")
     context.extend(Mote::Helpers)
 
-    assert_equal "Bruno", context.mote("<%= @user %>")
+    assert_equal "Bruno", context.mote("${ @user }")
   end
 
   test do
     context = Object.new
     context.extend(Mote::Helpers)
 
-    assert_equal "Bruno", context.mote("<%= user %>", user: "Bruno")
-    assert_equal "Brutus", context.mote("<%= user %>", user: "Brutus")
+    assert_equal "Bruno", context.mote("${ user }", user: "Bruno")
+    assert_equal "Brutus", context.mote("${ user }", user: "Brutus")
   end
 
   test do

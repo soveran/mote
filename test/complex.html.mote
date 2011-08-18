@@ -1,5 +1,5 @@
-<% if @user == "Bruno" %>
-  <%= @user %> rhymes with Piano
-<% elsif @user == "Brutus" %>
-  <%= @user %> rhymes with Opus
-<% end %>
+% if @user == "Bruno"
+  ${ @user } rhymes with Piano
+% elsif @user == "Brutus"
+  ${ @user } rhymes with Opus
+% end
