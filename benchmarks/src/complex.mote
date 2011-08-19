@@ -5,19 +5,19 @@
     <title>Simple Benchmark</title>
   </head>
   <body>
-    <h1><%= params[:header] %></h1>
-    <% unless params[:item].empty? %>
+    <h1>${ params[:header] }</h1>
+    % unless params[:item].empty?
       <ul>
-      <% for i in params[:item] %>
-        <% if i[:current] %>
-          <li><strong><%= i[:name] %></strong></li>
-        <% else %>
-          <li><a href="<%= i[:url] %>"><%= i[:name] %></a></li>
-        <% end %>
-      <% end %>
+      % for i in params[:item]
+        % if i[:current]
+          <li><strong>${ i[:name] }</strong></li>
+        % else
+          <li><a href="${ i[:url] }">${ i[:name] }</a></li>
+        % end
+      % end
       </ul>
-    <% else %>
+    % else
       <p>The list is empty.</p>
-    <% end %>
+    % end
   </body>
 </html>
