@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage          = "http://github.com/soveran/mote"
   s.files = Dir[
     "LICENSE",
+    "AUTHORS",
     "README.markdown",
     "Rakefile",
     "lib/**/*.rb",
