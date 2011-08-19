@@ -21,7 +21,6 @@ class Mote
   VERSION = "0.0.2"
 
   def self.parse(template, context = self, vars = [])
-    # terms = template.split(/(<%[=#]?)\s*(.*?)\s*%>/)
     terms = template.split(/^\s*(%)(.*?)$|(\$\{)(.*)\}/)
 
     parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
