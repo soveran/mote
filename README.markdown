@@ -60,30 +60,17 @@ The values passed to the template are available as local variables:
 
 # Helpers
 
-There are a couple helpers available in the `Mote::Helpers` module, and you are
+There's a helper available in the `Mote::Helpers` module, and you are
 free to include it in your code. To do it, just type:
 
     include Mote::Helpers
 
-Here are the available helpers:
-
 ## mote
 
-The `mote` helper receives a template string and returns the rendered version
-of it:
+The `mote` helper receives a file name and a hash and returns the rendered
+version of its content. The compiled template is cached for subsequent calls.
 
-    assert_equal "1 2 3", mote("1 ${2} 3")
-
-It works with parameters too:
-
-    assert_equal "1 2 3", mote("1 ${n} 3", n: 2)
-
-## mote_file
-
-The `mote_file` helper receives a file name and returns the rendered version of
-its content. The compiled template is cached for subsequent calls.
-
-    assert_equal "***\n", mote_file("test/basic.erb", n: 3)
+    assert_equal "***\n", mote("test/basic.erb", n: 3)
 
 Installation
 ------------
