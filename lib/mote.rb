@@ -43,22 +43,13 @@ class Mote
   end
 
   module Helpers
-    def mote(template, params = {})
-      mote_cache[template] ||= Mote.parse(template, self, params.keys)
-      mote_cache[template].call(params)
-    end
-
-    def mote_file(filename, params = {})
-      mote_files[filename] ||= Mote.parse(File.read(filename), self, params.keys)
-      mote_files[filename][params]
+    def mote(filename, params = {})
+      mote_cache[filename] ||= Mote.parse(File.read(filename), self, params.keys)
+      mote_cache[filename][params]
     end
 
     def mote_cache
       Thread.current[:_mote_cache] ||= {}
-    end
-
-    def mote_files
-      Thread.current[:_mote_files] ||= {}
     end
   end
 end
