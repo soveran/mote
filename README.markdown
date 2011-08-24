@@ -22,9 +22,9 @@ the different use cases you may face:
 
 
     % if user == "Bruno"
-      ${user} rhymes with Piano
+      {{user}} rhymes with Piano
     % elsif user == "Brutus"
-      ${user} rhymes with Opus
+      {{user}} rhymes with Opus
     % end
 
 ## Control flow
@@ -33,7 +33,7 @@ Lines that start with `%` are evaluated as Ruby code.
 
 ## Assignment
 
-Whatever it is between `${` and `}` gets printed in the template.
+Whatever it is between `{{` and `}}` gets printed in the template.
 
 ## Comments
 
@@ -47,14 +47,14 @@ There's nothing special about comments, it's just a `#` inside your Ruby code:
 As with control instructions, it happens naturally:
 
     % 3.times do |i|
-      ${i}
+      {{i}}
     % end
 
 ## Parameters
 
 The values passed to the template are available as local variables:
 
-    example = Mote.parse("Hello ${name}")
+    example = Mote.parse("Hello {{name}}")
     assert_equal "Hello world", example.call(name: "world")
     assert_equal "Hello Bruno", example.call(name: "Bruno")
 

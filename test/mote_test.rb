@@ -2,7 +2,7 @@ require File.expand_path("../lib/mote", File.dirname(__FILE__))
 
 scope do
   test "assignment" do
-    example = Mote.parse("${ \"***\" }")
+    example = Mote.parse("{{ \"***\" }}")
     assert_equal "***", example.call
   end
 
@@ -54,7 +54,7 @@ scope do
   end
 
   test "multiline" do
-    example = Mote.parse("The\nMan\nAnd\n${\"The\"}\nSea")
+    example = Mote.parse("The\nMan\nAnd\n{{\"The\"}}\nSea")
     assert_equal "The\nMan\nAnd\nThe\nSea", example[:n => 3]
   end
 
@@ -67,15 +67,20 @@ scope do
     context = Object.new
     context.instance_variable_set(:@user, "Bruno")
 
-    example = Mote.parse("${ @user }", context)
+    example = Mote.parse("{{ @user }}", context)
     assert_equal "Bruno", example.call
   end
 
   test "locals" do
     context = Object.new
 
-    example = Mote.parse("${ user }", context, [:user])
+    example = Mote.parse("{{ user }}", context, [:user])
     assert_equal "Bruno", example.call(user: "Bruno")
+  end
+
+  test "curly bug" do
+    example = Mote.parse("{{ [1, 2, 3].map { |i| i * i }.join(',') }}")
+    assert_equal "1,4,9", example.call
   end
 end
 
