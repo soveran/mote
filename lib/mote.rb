@@ -21,7 +21,8 @@ class Mote
   VERSION = "0.0.2"
 
   def self.parse(template, context = self, vars = [])
-    terms = template.split(/^\s*(%)(.*?)$|(\{\{)(.*?)\}\}/)
+    # terms = template.split(/^\\s*(%)(.*?)$|(\\{\\{)(.*?)\\}\\}/)
+    terms = template.split(%r[^\s*(%)(.*?)$|({{{)(.*?)}}}|({{)(.*?)}}])
 
     parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
 
@@ -31,9 +32,10 @@ class Mote
 
     while term = terms.shift
       case term
-      when "%"  then parts << "#{terms.shift}\n"
-      when "{{" then parts << "__o << (#{terms.shift}).to_s\n"
-      else           parts << "__o << #{term.inspect}\n"
+      when "%"   then parts << "#{terms.shift}\n"
+      when "{{"  then parts << "__o << (#{terms.shift}).to_s\n"
+      when "{{{" then parts << "__o << #{context.instance_eval(terms.shift).inspect}\n"
+      else            parts << "__o << #{term.inspect}\n"
       end
     end
 
