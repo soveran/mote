@@ -33,7 +33,7 @@ class Mote
       case term
       when "%"  then parts << "#{terms.shift}\n"
       when "{{" then parts << "__o << (#{terms.shift}).to_s\n"
-      else           parts << "__o << #{term.inspect}\n"
+      else           parts << "__o << #{term.dump}\n"
       end
     end
 
