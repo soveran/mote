@@ -100,4 +100,11 @@ scope do
   test "helpers" do
     assert_equal "\n  *\n\n  *\n\n  *\n\n", mote("test/basic.erb", :n => 3)
   end
+
+  test "ontaint" do
+    ontaint = lambda { |s| s.gsub(/[^a-z]/i, "") }
+
+    assert_equal "<p>John</p>\n",
+      mote("test/name.erb", { name: " John 123".taint }, ontaint)
+  end
 end
