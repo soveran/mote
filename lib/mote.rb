@@ -32,7 +32,7 @@ class Mote
     while term = terms.shift
       case term
       when "%"  then parts << "#{terms.shift}\n"
-      when "{{" then parts << "__o << (#{terms.shift}).to_s\n"
+      when "{{" then parts << "__o << ::Mote.assert_safe((#{terms.shift}).to_s)\n"
       else           parts << "__o << #{term.dump}\n"
       end
     end
@@ -40,6 +40,22 @@ class Mote
     parts << "__o; end"
 
     context.instance_eval(parts)
+  end
+
+  def self.assert_safe(str)
+    raise TaintedError.new(str) if str.tainted?
+
+    str
+  end
+
+  class TaintedError < StandardError
+    def initialize(str)
+      @str = str
+    end
+
+    def message
+      "You tried to display the value '#{@str}'"
+    end
   end
 
   module Helpers

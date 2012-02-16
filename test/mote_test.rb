@@ -82,6 +82,23 @@ scope do
     example = Mote.parse("{{ [1, 2, 3].map { |i| i * i }.join(',') }}")
     assert_equal "1,4,9", example.call
   end
+
+  test "taint check" do
+    context = Object.new
+
+    example = Mote.parse("{{ user }}", context, [:user])
+
+    ex = nil
+
+    begin
+      example.call(user: "John".taint)
+    rescue Exception => e
+      ex = e
+    end
+
+    assert ex.kind_of?(Mote::TaintedError)
+    assert_equal "You tried to display the value 'John'", ex.message
+  end
 end
 
 include Mote::Helpers
