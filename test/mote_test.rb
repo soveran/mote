@@ -86,18 +86,11 @@ scope do
   test "taint check" do
     context = Object.new
 
+    ontaint = lambda { |x| x.gsub(/[^a-z]/i, "") }
     example = Mote.parse("{{ user }}", context, [:user])
+    result  = example.call({ user: "'John'".taint }, ontaint)
 
-    ex = nil
-
-    begin
-      example.call(user: "John".taint)
-    rescue Exception => e
-      ex = e
-    end
-
-    assert ex.kind_of?(Mote::TaintedError)
-    assert_equal "You tried to display the value 'John'", ex.message
+    assert_equal "John", result
   end
 end
 

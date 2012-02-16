@@ -23,7 +23,7 @@ class Mote
   def self.parse(template, context = self, vars = [])
     terms = template.split(/^\s*(%)(.*?)$|(\{\{)(.*?)\}\}/)
 
-    parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
+    parts = "Proc.new do |params={}, ontainted=lambda { |x| x }, __o=''|\n"
 
     vars.each do |var|
       parts << "%s = params[:%s]\n" % [var, var]
@@ -32,7 +32,7 @@ class Mote
     while term = terms.shift
       case term
       when "%"  then parts << "#{terms.shift}\n"
-      when "{{" then parts << "__o << ::Mote.assert_safe((#{terms.shift}).to_s)\n"
+      when "{{" then parts << "__o << ::Mote.clean((#{terms.shift}).to_s, ontainted)\n"
       else           parts << "__o << #{term.dump}\n"
       end
     end
@@ -42,20 +42,8 @@ class Mote
     context.instance_eval(parts)
   end
 
-  def self.assert_safe(str)
-    raise TaintedError.new(str) if str.tainted?
-
-    str
-  end
-
-  class TaintedError < StandardError
-    def initialize(str)
-      @str = str
-    end
-
-    def message
-      "You tried to display the value '#{@str}'"
-    end
+  def self.clean(str, ontainted)
+    str.tainted? ? ontainted.call(str) : str
   end
 
   module Helpers
