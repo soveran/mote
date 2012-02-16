@@ -23,7 +23,7 @@ class Mote
   def self.parse(template, context = self, vars = [])
     terms = template.split(/^\s*(%)(.*?)$|(\{\{)(.*?)\}\}/)
 
-    parts = "Proc.new do |params={}, ontainted=lambda { |x| x }, __o=''|\n"
+    parts = "Proc.new do |params = {}, ontainted = nil, __o = ''|\n"
 
     vars.each do |var|
       parts << "%s = params[:%s]\n" % [var, var]
@@ -43,13 +43,13 @@ class Mote
   end
 
   def self.clean(str, ontainted)
-    str.tainted? ? ontainted.call(str) : str
+    ontainted && str.tainted? ? ontainted.call(str) : str
   end
 
   module Helpers
-    def mote(filename, params = {})
+    def mote(filename, params = {}, ontaint = nil)
       mote_cache[filename] ||= Mote.parse(File.read(filename), self, params.keys)
-      mote_cache[filename][params]
+      mote_cache[filename][params, ontaint]
     end
 
     def mote_cache
