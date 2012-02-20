@@ -88,6 +88,6 @@ include Mote::Helpers
 
 scope do
   test "helpers" do
-    assert_equal "\n  *\n\n  *\n\n  *\n\n", mote("test/basic.erb", :n => 3)
+    assert_equal "\n  *\n\n  *\n\n  *\n\n", mote("test/basic.mote", :n => 3)
   end
 end

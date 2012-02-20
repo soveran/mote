@@ -70,7 +70,7 @@ free to include it in your code. To do it, just type:
 The `mote` helper receives a file name and a hash and returns the rendered
 version of its content. The compiled template is cached for subsequent calls.
 
-    assert_equal "***\n", mote("test/basic.erb", n: 3)
+    assert_equal "***\n", mote("test/basic.mote", n: 3)
 
 Installation
 ------------
