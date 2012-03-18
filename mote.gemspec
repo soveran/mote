@@ -17,5 +17,6 @@ Gem::Specification.new do |s|
     "*.gemspec",
     "test/**/*.rb"
   ]
+  s.executables.push("mote")
   s.add_development_dependency "cutest"
 end

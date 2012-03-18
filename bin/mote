@@ -1,0 +1,37 @@
+help = <<-EOS
+MOTE(1)
+
+NAME
+       mote -- Minimum Operational Template
+
+SYNOPSIS
+       mote FILE
+
+DESCRIPTION
+       Use this command line tool to render mote templates. The result
+       is redirected to standard output.
+
+EXAMPLES
+       If your template called foo.mote, you can render it with the
+       following command:
+
+           mote foo.mote
+
+       To redirect the result to a new file, just redirect the output:
+
+           mote foo.mote > foo.html
+
+SEE ALSO
+       https://github.com/soveran/mote
+EOS
+
+if ARGV.empty?
+  puts help
+  exit
+end
+
+require "mote"
+
+include Mote::Helpers
+
+print mote(ARGV[0])
