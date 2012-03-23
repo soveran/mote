@@ -1,4 +1,4 @@
-# Copyright (c) 2010 Michel Martens
+# Copyright (c) 2011, 2012 Michel Martens
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 class Mote
-  VERSION = "0.2.1"
+  VERSION = "0.2.2"
 
   def self.parse(template, context = self, vars = [])
     terms = template.split(/^\s*(%)(.*?)$|(\{\{)(.*?)\}\}/)
