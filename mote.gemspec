@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name              = "mote"
   s.version           = Mote::VERSION
   s.summary           = "Minimum Operational Template."
-  s.description       = "Mote is the little brother of ERB. It only provides a subset of ERB's features, but praises itself of being simple--both internally and externally--and super fast."
+  s.description       = "Mote is a very simple and fast template engine."
   s.authors           = ["Michel Martens"]
   s.email             = ["michel@soveran.com"]
   s.homepage          = "http://github.com/soveran/mote"

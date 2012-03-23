@@ -6,8 +6,7 @@ Minimum Operational Template.
 Description
 -----------
 
-Mote is very simple and fast template engine that praises itself of being
-simple--both internally and externally-- and super fast.
+Mote is a very simple and fast template engine.
 
 Usage
 -----
