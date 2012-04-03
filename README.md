@@ -13,18 +13,21 @@ Usage
 
 Usage is very similar to that of ERB:
 
-    template = Mote.parse("This is a template")
-    template.call #=> "This is a template"
+```ruby
+template = Mote.parse("This is a template")
+template.call #=> "This is a template"
+```
 
 Silly example, you may say, and I would agree. What follows is a short list of
 the different use cases you may face:
 
-
-    % if user == "Bruno"
-      {{user}} rhymes with Piano
-    % elsif user == "Brutus"
-      {{user}} rhymes with Opus
-    % end
+```
+% if user == "Bruno"
+  {{user}} rhymes with Piano
+% elsif user == "Brutus"
+  {{user}} rhymes with Opus
+% end
+```
 
 ## Control flow
 
@@ -38,40 +41,53 @@ Whatever it is between `{{` and `}}` gets printed in the template.
 
 There's nothing special about comments, it's just a `#` inside your Ruby code:
 
-    % # This is a comment.
+```
+% # This is a comment.
+```
 
 
 ## Block evaluation
 
 As with control instructions, it happens naturally:
 
-    % 3.times do |i|
-      {{i}}
-    % end
+```
+% 3.times do |i|
+  {{i}}
+% end
+```
 
 ## Parameters
 
 The values passed to the template are available as local variables:
 
-    example = Mote.parse("Hello {{name}}")
-    assert_equal "Hello world", example.call(name: "world")
-    assert_equal "Hello Bruno", example.call(name: "Bruno")
+```ruby
+example = Mote.parse("Hello {{name}}")
+assert_equal "Hello world", example.call(name: "world")
+assert_equal "Hello Bruno", example.call(name: "Bruno")
+```
 
 # Helpers
 
 There's a helper available in the `Mote::Helpers` module, and you are
 free to include it in your code. To do it, just type:
 
-    include Mote::Helpers
+```ruby
+include Mote::Helpers
+```
 
 ## mote
 
 The `mote` helper receives a file name and a hash and returns the rendered
 version of its content. The compiled template is cached for subsequent calls.
 
-    assert_equal "***\n", mote("test/basic.mote", n: 3)
+```ruby
+assert_equal "***\n", mote("test/basic.mote", n: 3)
+```
 
-Installation
-------------
+## Installation
 
-    $ gem install mote
+As usual, you can install it using rubygems.
+
+```
+$ gem install mote
+```
