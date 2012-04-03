@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>mote by soveran</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>mote</h1>
+        <p>Minimum Operational Template</p>
+        <p class="view"><a href="https://github.com/soveran/mote">View the Project on GitHub <small>soveran/mote</small></a></p>
+        <ul>
+          <li><a href="https://github.com/soveran/mote/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/soveran/mote/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/soveran/mote">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Minimalist template engine</h1>
+
+<p>Mote is a very simple template engine optimized for performance.</p>
+
+<h2>Usage</h2>
+
+<p>Usage is very similar to that of ERB:</p>
+
+<div class="highlight">
+<pre><span class="n">template</span> <span class="o">=</span> <span class="no">Mote</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"This is a template"</span><span class="p">)</span>
+<span class="n">template</span><span class="o">.</span><span class="n">call</span> <span class="c1">#=&gt; "This is a template"</span>
+</pre>
+</div>
+
+
+<p>Silly example, you may say, and I would agree. What follows is a short list of
+the different use cases you may face:</p>
+
+<pre><code>% if user == "Bruno"
+  {{user}} rhymes with Piano
+% elsif user == "Brutus"
+  {{user}} rhymes with Opus
+% end
+</code></pre>
+
+<h2>Control flow</h2>
+
+<p>Lines that start with <code>%</code> are evaluated as Ruby code.</p>
+
+<h2>Assignment</h2>
+
+<p>Whatever it is between <code>{{</code> and <code>}}</code> gets printed in the template.</p>
+
+<h2>Comments</h2>
+
+<p>There's nothing special about comments, it's just a <code>#</code> inside your Ruby code:</p>
+
+<pre><code>% # This is a comment.
+</code></pre>
+
+<h2>Block evaluation</h2>
+
+<p>As with control instructions, it happens naturally:</p>
+
+<pre><code>% 3.times do |i|
+  {{i}}
+% end
+</code></pre>
+
+<h2>Parameters</h2>
+
+<p>The values passed to the template are available as local variables:</p>
+
+<div class="highlight">
+<pre><span class="n">example</span> <span class="o">=</span> <span class="no">Mote</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">"Hello {{name}}"</span><span class="p">)</span>
+<span class="n">assert_equal</span> <span class="s2">"Hello world"</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">"world"</span><span class="p">)</span>
+<span class="n">assert_equal</span> <span class="s2">"Hello Bruno"</span><span class="p">,</span> <span class="n">example</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">"Bruno"</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h1>Helpers</h1>
+
+<p>There's a helper available in the <code>Mote::Helpers</code> module, and you are
+free to include it in your code. To do it, just type:</p>
+
+<div class="highlight">
+<pre><span class="kp">include</span> <span class="no">Mote</span><span class="o">::</span><span class="no">Helpers</span>
+</pre>
+</div>
+
+
+<h2>mote</h2>
+
+<p>The <code>mote</code> helper receives a file name and a hash and returns the rendered
+version of its content. The compiled template is cached for subsequent calls.</p>
+
+<div class="highlight">
+<pre><span class="n">assert_equal</span> <span class="s2">"***</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">mote</span><span class="p">(</span><span class="s2">"test/basic.mote"</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h2>Installation</h2>
+
+<p>As usual, you can install it using rubygems.</p>
+
+<pre><code>$ gem install mote
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/soveran">soveran</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
