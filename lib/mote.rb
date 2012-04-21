@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 class Mote
-  VERSION = "0.2.2"
+  VERSION = "0.2.3"
 
   PATTERN = /^\s*(%)(.*?)$|(<\?)\s+(.*?)\s+\?>|(\{\{)(.*?)\}\}/m
 
