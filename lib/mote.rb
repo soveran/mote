@@ -20,8 +20,10 @@
 class Mote
   VERSION = "0.2.2"
 
+  PATTERN = /^\s*(%)(.*?)$|(<\?)\s*(.*?)\s*\?>|(\{\{)(.*?)\}\}/m
+
   def self.parse(template, context = self, vars = [])
-    terms = template.split(/^\s*(%)(.*?)$|(\{\{)(.*?)\}\}/)
+    terms = template.split(PATTERN)
 
     parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
 
@@ -31,6 +33,7 @@ class Mote
 
     while term = terms.shift
       case term
+      when "<?" then parts << "#{terms.shift}\n"
       when "%"  then parts << "#{terms.shift}\n"
       when "{{" then parts << "__o << (#{terms.shift}).to_s\n"
       else           parts << "__o << #{term.dump}\n"
