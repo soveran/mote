@@ -20,7 +20,7 @@
 class Mote
   VERSION = "0.2.2"
 
-  PATTERN = /^\s*(%)(.*?)$|(<\?)\s*(.*?)\s*\?>|(\{\{)(.*?)\}\}/m
+  PATTERN = /^\s*(%)(.*?)$|(<\?)\s+(.*?)\s+\?>|(\{\{)(.*?)\}\}/m
 
   def self.parse(template, context = self, vars = [])
     terms = template.split(PATTERN)

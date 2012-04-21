@@ -83,7 +83,7 @@ scope do
     assert_equal "1,4,9", example.call
   end
 
-  test "multi-line XML directives" do
+  test "multi-line XML-style directives" do
     template = (<<-EOT).gsub(/^    /, "")
     <? res = ""
        [1, 2, 3].each_with_index do |item, idx|
@@ -95,6 +95,15 @@ scope do
 
     example = Mote.parse(template)
     assert_equal "\n1. 1\n2. 4\n3. 9\n\n", example.call
+  end
+
+  test "preserve XML directives" do
+    template = (<<-EOT).gsub(/^    /, "")
+    <?xml "hello" ?>
+    EOT
+
+    example = Mote.parse(template)
+    assert_equal "<?xml \"hello\" ?>\n", example.call
   end
 end
 
