@@ -42,6 +42,10 @@ class Mote
 
     parts << "__o; end"
 
+    compile(context, parts)
+  end
+
+  def self.compile(context, parts)
     context.instance_eval(parts)
   end
 
