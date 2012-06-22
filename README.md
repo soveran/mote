@@ -66,6 +66,8 @@ assert_equal "Hello world", example.call(name: "world")
 assert_equal "Hello Bruno", example.call(name: "Bruno")
 ```
 
+Please note that the keys in the parameters hash must be symbols.
+
 # Helpers
 
 There's a helper available in the `Mote::Helpers` module, and you are
