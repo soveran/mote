@@ -18,11 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 class Mote
-  VERSION = "1.0.0.rc1"
+  VERSION = "1.0.0"
 
   PATTERN = /^\s*(%)(.*?)$|(<\?)\s+(.*?)\s+\?>|(\{\{)(.*?)\}\}/m
 
-  def self.parse(template, vars = [])
+  def self.parse(template, context = self, vars = [])
     terms = template.split(PATTERN)
 
     parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
@@ -42,16 +42,16 @@ class Mote
 
     parts << "__o; end"
 
-    compile(TOPLEVEL_BINDING, parts)
+    compile(context, parts)
   end
 
   def self.compile(context, parts)
-    context.eval(parts)
+    context.instance_eval(parts)
   end
 
   module Helpers
-    def mote(filename, params = {})
-      mote_cache[filename] ||= Mote.parse(File.read(filename), params.keys)
+    def mote(filename, params = {}, context = self)
+      mote_cache[filename] ||= Mote.parse(File.read(filename), context, params.keys)
       mote_cache[filename][params]
     end
 

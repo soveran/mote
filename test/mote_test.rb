@@ -67,12 +67,12 @@ scope do
     context = Object.new
     def context.user; "Bruno"; end
 
-    example = Mote.parse("{{ context.user }}", [:context])
+    example = Mote.parse("{{ context.user }}", context, [:context])
     assert_equal "Bruno", example.call(context: context)
   end
 
   test "locals" do
-    example = Mote.parse("{{ user }}", [:user])
+    example = Mote.parse("{{ user }}", TOPLEVEL_BINDING, [:user])
     assert_equal "Bruno", example.call(user: "Bruno")
   end
 
@@ -107,8 +107,28 @@ end
 
 include Mote::Helpers
 
+class Cutest::Scope
+  def foo
+    "foo"
+  end
+end
+
 scope do
+  prepare do
+    mote_cache.clear
+  end
+
   test "helpers" do
     assert_equal "\n  *\n\n  *\n\n  *\n\n", mote("test/basic.mote", :n => 3)
+  end
+
+  test "using functions in the context" do
+    assert_equal "foo\n", mote("test/foo.mote")
+  end
+
+  test "passing in a context" do
+    assert_raise NameError do
+      mote("test/foo.mote", {}, TOPLEVEL_BINDING)
+    end
   end
 end
