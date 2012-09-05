@@ -2,8 +2,8 @@ require File.expand_path("../lib/mote", File.dirname(__FILE__))
 
 scope do
   test "empty lines" do
-    example = Mote.parse("\n\n\n")
-    assert_equal "\n\n\n", example.call
+    example = Mote.parse("\n\n \n")
+    assert_equal "\n\n \n", example.call
   end
 
   test "empty lines with mixed code" do
