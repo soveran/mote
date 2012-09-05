@@ -1,6 +1,21 @@
 require File.expand_path("../lib/mote", File.dirname(__FILE__))
 
 scope do
+  test "empty lines" do
+    example = Mote.parse("\n\n\n")
+    assert_equal "\n\n\n", example.call
+  end
+
+  test "empty lines with mixed code" do
+    example = Mote.parse("\n% true\n\n% false\n\n")
+    assert_equal "\n\n\n", example.call
+  end
+
+  test "empty lines with control flow" do
+    example = Mote.parse("\n% if true\n\n\n% else\n\n% end\n")
+    assert_equal "\n\n\n", example.call
+  end
+
   test "assignment" do
     example = Mote.parse("{{ \"***\" }}")
     assert_equal "***", example.call
@@ -27,7 +42,7 @@ scope do
     EOT
 
     example = Mote.parse(template)
-    assert_equal "\n  ***\n\n", example.call
+    assert_equal "  ***\n", example.call
   end
 
   test "block evaluation" do
@@ -38,7 +53,7 @@ scope do
     EOT
 
     example = Mote.parse(template)
-    assert_equal "\n*\n\n*\n\n*\n\n", example.call
+    assert_equal "*\n*\n*\n", example.call
   end
 
   test "parameters" do
@@ -49,8 +64,8 @@ scope do
     EOT
 
     example = Mote.parse(template)
-    assert_equal "\n*\n\n*\n\n*\n\n", example[:n => 3]
-    assert_equal "\n*\n\n*\n\n*\n\n*\n\n", example[:n => 4]
+    assert_equal "*\n*\n*\n", example[:n => 3]
+    assert_equal "*\n*\n*\n*\n", example[:n => 4]
   end
 
   test "multiline" do
@@ -119,7 +134,7 @@ scope do
   end
 
   test "helpers" do
-    assert_equal "\n  *\n\n  *\n\n  *\n\n", mote("test/basic.mote", :n => 3)
+    assert_equal "  *\n  *\n  *\n", mote("test/basic.mote", :n => 3)
   end
 
   test "using functions in the context" do
