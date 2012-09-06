@@ -14,12 +14,12 @@ DESCRIPTION
        is redirected to standard output.
 
 EXAMPLES
-       If your template called foo.mote, you can render it with the
+       If your template is called foo.mote, you can render it with the
        following command:
 
            mote foo.mote
 
-       To redirect the result to a new file, just redirect the output:
+       To write the result to a new file, just redirect the output:
 
            mote foo.mote > foo.html
 
