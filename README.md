@@ -61,7 +61,7 @@ As with control instructions, it happens naturally:
 The values passed to the template are available as local variables:
 
 ```ruby
-example = Mote.parse("Hello {{name}}")
+example = Mote.parse("Hello {{name}}", self, [:name])
 assert_equal "Hello world", example.call(name: "world")
 assert_equal "Hello Bruno", example.call(name: "Bruno")
 ```
