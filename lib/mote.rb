@@ -28,7 +28,7 @@ class Mote
     parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
 
     vars.each do |var|
-      parts << "%s = params[:%s]\n" % [var, var]
+      parts << "%s = params[%s]\n" % [var, var.inspect]
     end
 
     while term = terms.shift

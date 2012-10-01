@@ -7,11 +7,14 @@ NAME
        mote -- Minimum Operational Template
 
 SYNOPSIS
-       mote FILE
+       mote FILE [param1 value1 ... paramN valueN]
 
 DESCRIPTION
        Use this command line tool to render mote templates. The result
        is redirected to standard output.
+
+       The extra parameters supplied will be passed to the template.
+       Note that all the parameter values will be treated as strings.
 
 EXAMPLES
        If your template is called foo.mote, you can render it with the
@@ -23,17 +26,25 @@ EXAMPLES
 
            mote foo.mote > foo.html
 
+      If the template uses a local variable `bar`, you can pass a
+      value from the command line:
+
+           mote foo.mote bar 42
+
 SEE ALSO
        https://github.com/soveran/mote
 EOS
 
-if ARGV.empty?
+if ARGV.size.even?
   puts help
   exit
 end
 
-require "mote"
+t = ARGV.shift
+p = Hash[*ARGV]
+
+require_relative "../lib/mote"
 
 include Mote::Helpers
 
-print mote(ARGV[0])
+print mote(t, p)
