@@ -91,6 +91,11 @@ scope do
     assert_equal "Bruno", example.call(user: "Bruno")
   end
 
+  test "nil" do
+    example = Mote.parse("{{ user }}", TOPLEVEL_BINDING, [:user])
+    assert_equal "", example.call(user: nil)
+  end
+
   test "curly bug" do
     example = Mote.parse("{{ [1, 2, 3].map { |i| i * i }.join(',') }}")
     assert_equal "1,4,9", example.call
