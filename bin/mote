@@ -43,7 +43,7 @@ end
 t = ARGV.shift
 p = Hash[*ARGV]
 
-require_relative "../lib/mote"
+require "mote"
 
 include Mote::Helpers
 
