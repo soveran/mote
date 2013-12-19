@@ -77,7 +77,7 @@ free to include it in your code. To do it, just type:
 include Mote::Helpers
 ```
 
-## mote
+### Using the mote helper
 
 The `mote` helper receives a file name and a hash and returns the rendered
 version of its content. The compiled template is cached for subsequent calls.
@@ -86,9 +86,37 @@ version of its content. The compiled template is cached for subsequent calls.
 assert_equal "***\n", mote("test/basic.mote", n: 3)
 ```
 
+## Command line tool
+
+Mote ships with a command line tool to render mote templates. The
+result is redirected to standard output.
+
+```
+mote FILE [param1 value1 ... paramN valueN]
+```
+
+The extra parameters supplied will be passed to the template.
+Note that all the parameter values will be treated as strings.
+
+### Example usage
+
+If your template is called foo.mote, you can render it with the
+following command:
+
+	mote foo.mote
+
+To write the result to a new file, just redirect the output:
+
+	mote foo.mote > foo.html
+
+If the template uses a local variable `bar`, you can pass a
+value from the command line:
+
+	mote foo.mote bar 42
+
 ## Installation
 
-As usual, you can install it using rubygems.
+You can install it using rubygems.
 
 ```
 $ gem install mote
