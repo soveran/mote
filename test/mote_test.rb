@@ -16,6 +16,11 @@ scope do
     assert_equal "\n\n\n", example.call
   end
 
+  test "control flow without final newline" do
+    example = Mote.parse("\n% if true\n\n\n% else\n\n% end")
+    assert_equal "\n\n\n", example.call
+  end
+
   test "assignment" do
     example = Mote.parse("{{ \"***\" }}")
     assert_equal "***", example.call
