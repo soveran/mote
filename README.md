@@ -86,6 +86,23 @@ version of its content. The compiled template is cached for subsequent calls.
 assert_equal "***\n", mote("test/basic.mote", n: 3)
 ```
 
+### Template caching
+
+When the `mote` helper is first called with a template name, the
+file is read and parsed, and a proc is created and stored in the
+current thread. The parameters passed are defined as local
+variables in the template. If you want to provide more parameters
+once the template was cached, you won't be able to access the
+values as local variables, but you can always access the `params`
+hash.
+
+For example:
+
+```ruby
+# First call
+mote("foo.mote", a: 1, b: 2)
+```
+
 ## Command line tool
 
 Mote ships with a command line tool to render mote templates. The
