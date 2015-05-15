@@ -50,9 +50,9 @@ class Mote
   end
 
   module Helpers
-    def mote(file, params = {}, context = self)
+    def mote(file, params = {}, context = self, buffer = "")
       mote_cache[file] ||= Mote.parse(File.read(file), context, params.keys)
-      mote_cache[file][params]
+      mote_cache[file][params, buffer]
     end
 
     def mote_cache

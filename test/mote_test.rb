@@ -152,4 +152,8 @@ scope do
       mote("test/foo.mote", {}, TOPLEVEL_BINDING)
     end
   end
+
+  test "passing in a buffer" do
+    assert_equal "barfoo\n", mote("test/foo.mote", {}, self, "bar")
+  end
 end
