@@ -22,7 +22,7 @@ scope do
   end
 
   test "assignment" do
-    example = Mote.parse("{{ \"***\" }}")
+    example = Mote.parse("{{ '***' }}")
     assert_equal "***", example.call
   end
 
@@ -75,7 +75,7 @@ scope do
 
   test "multiline" do
     example = Mote.parse("The\nMan\nAnd\n{{\"The\"}}\nSea")
-    assert_equal "The\nMan\nAnd\nThe\nSea", example[:n => 3]
+    assert_equal "The\nMan\nAnd\nThe\nSea", example.call
   end
 
   test "quotes" do
@@ -87,8 +87,8 @@ scope do
     context = Object.new
     def context.user; "Bruno"; end
 
-    example = Mote.parse("{{ context.user }}", context, [:context])
-    assert_equal "Bruno", example.call(context: context)
+    example = Mote.parse("{{ user }}", context)
+    assert_equal "Bruno", example.call
   end
 
   test "locals" do
@@ -101,23 +101,19 @@ scope do
     assert_equal "", example.call(user: nil)
   end
 
-  test "curly bug" do
-    example = Mote.parse("{{ [1, 2, 3].map { |i| i * i }.join(',') }}")
-    assert_equal "1,4,9", example.call
-  end
-
   test "multi-line XML-style directives" do
     template = (<<-EOT).gsub(/^    /, "")
-    <? res = ""
-       [1, 2, 3].each_with_index do |item, idx|
-         res << "%d. %d\n" % [idx + 1, item * item]
-       end
+    <?
+      # Multiline code evaluation
+      lucky = [1, 3, 7, 9, 13, 15]
+      prime = [2, 3, 5, 7, 11, 13]
     ?>
-    {{ res }}
+
+    {{ lucky & prime }}
     EOT
 
     example = Mote.parse(template)
-    assert_equal "\n1. 1\n2. 4\n3. 9\n\n", example.call
+    assert_equal "\n\n[3, 7, 13]\n", example.call
   end
 
   test "preserve XML directives" do
