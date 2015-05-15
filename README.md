@@ -22,16 +22,26 @@ Silly example, you may say, and I would agree. What follows is a short list of
 the different use cases you may face:
 
 ```
+% # This is a comment
 % if user == "Bruno"
   {{user}} rhymes with Piano
 % elsif user == "Brutus"
   {{user}} rhymes with Opus
 % end
+
+<?
+  # Multiline code evaluation
+  lucky = [1, 3, 7, 9, 13, 15]
+  prime = [2, 3, 5, 7, 11, 13]
+?>
+
+{{ lucky & prime }}
 ```
 
 ## Control flow
 
-Lines that start with `%` are evaluated as Ruby code.
+Lines that start with `%` are evaluated as Ruby code. Anything between
+`<?` and `?>`, including new lines, is also evaluated as Ruby code.
 
 ## Assignment
 
@@ -44,7 +54,6 @@ There's nothing special about comments, it's just a `#` inside your Ruby code:
 ```
 % # This is a comment.
 ```
-
 
 ## Block evaluation
 
