@@ -22,9 +22,16 @@ class Mote
 
   PATTERN = /^[^\S\n]*(%)[^\S\n]*(.*?)(?:\n|\Z)|(<\?)\s+(.*?)\s+\?>|(\{\{)(.*?)\}\}/m
 
-  def self.parse(template, context = self, vars = [])
-    terms = template.split(PATTERN)
+  def self.parse_file(file, context = self, vars = [])
+    compile(context, parts(File.read(file), vars), file, -(vars.size.succ))
+  end
 
+  def self.parse(template, context = self, vars = [])
+    compile(context, parts(template, vars))
+  end
+
+  def self.parts(str, vars)
+    terms = str.split(PATTERN)
     parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
 
     vars.each do |var|
@@ -41,17 +48,15 @@ class Mote
     end
 
     parts << "__o; end"
-
-    compile(context, parts)
   end
 
-  def self.compile(context, parts)
-    context.instance_eval(parts)
+  def self.compile(context, parts, *args)
+    context.instance_eval(parts, *args)
   end
 
   module Helpers
     def mote(file, params = {}, context = self)
-      mote_cache[file] ||= Mote.parse(File.read(file), context, params.keys)
+      mote_cache[file] ||= Mote.parse_file(file, context, params.keys)
       mote_cache[file][params]
     end
 
