@@ -28,41 +28,34 @@ class Mote
     (\{\{)(.*?)\}\}                      # Ruby evaluated to strings
   /mx
 
-  def self.parse_file(file, context = self, vars = [])
-    compile(context, parts(File.read(file), vars), file, -(vars.size.succ))
-  end
+  def self.parse(template, context = self, vars = [], name = "template")
+    terms = template.split(PATTERN)
 
-  def self.parse(template, context = self, vars = [])
-    compile(context, parts(template, vars))
-  end
-
-  def self.parts(str, vars)
-    terms = str.split(PATTERN)
-    parts = "Proc.new do |params, __o|\n params ||= {}; __o ||= ''\n"
+    code = "Proc.new do |params, __o| params ||= {}; __o ||= '';"
 
     vars.each do |var|
-      parts << "%s = params[%p]\n" % [var, var]
+      code << "%s = params[%p];" % [var, var]
     end
 
     while (term = terms.shift)
       case term
-      when "<?" then parts << "#{terms.shift}\n"
-      when "%"  then parts << "#{terms.shift}\n"
-      when "{{" then parts << "__o << (#{terms.shift}).to_s\n"
-      else           parts << "__o << #{term.dump}\n"
+      when "<?" then code << "#{terms.shift}\n"
+      when "%"  then code << "#{terms.shift}\n"
+      when "{{" then code << "__o << (#{terms.shift}).to_s\n"
+      else           code << "__o << #{term.dump}\n"
       end
     end
 
-    parts << "__o; end"
-  end
+    code << "__o; end"
 
-  def self.compile(context, parts, *args)
-    context.instance_eval(parts, *args)
+    context.instance_eval(code, name, -1)
   end
 
   module Helpers
     def mote(file, params = {}, context = self)
-      mote_cache[file] ||= Mote.parse_file(file, context, params.keys)
+      template = File.read(file)
+
+      mote_cache[file] ||= Mote.parse(template, context, params.keys, file)
       mote_cache[file][params]
     end
 

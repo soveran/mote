@@ -139,6 +139,16 @@ scope do
     mote_cache.clear
   end
 
+  test "syntax errors" do
+    begin
+      mote("test/error.mote")
+    rescue SyntaxError => error
+    end
+
+    assert_equal SyntaxError, error.class
+    assert error.message["test/error.mote:4: syntax error"]
+  end
+
   test "helpers" do
     assert_equal "  *\n  *\n  *\n", mote("test/basic.mote", :n => 3)
   end
