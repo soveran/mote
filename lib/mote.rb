@@ -20,7 +20,13 @@
 class Mote
   VERSION = "1.1.4"
 
-  PATTERN = /^[^\S\n]*(%)[^\S\n]*(.*?)(?:\n|\Z)|(<\?)\s+(.*?)\s+\?>|(\{\{)(.*?)\}\}/m
+  # The regex have three alternative blocks that capture the embedded ruby code,
+  # the rest is left as is.
+  PATTERN = /
+    ^[^\S\n]*(%)[^\S\n]*(.*?)(?:\n|\Z) | # ruby evaluated lines
+    (<\?)\s+(.*?)\s+\?>                | # multiline ruby blocks
+    (\{\{)(.*?)\}\}                      # ruby evaluated to strings
+  /mx
 
   def self.parse_file(file, context = self, vars = [])
     compile(context, parts(File.read(file), vars), file, -(vars.size.succ))
