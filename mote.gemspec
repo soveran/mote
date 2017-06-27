@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
     "LICENSE",
     "AUTHORS",
     "README.md",
-    "Rakefile",
     "lib/**/*.rb",
     "*.gemspec",
     "test/**/*.rb"
