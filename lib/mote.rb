@@ -20,8 +20,8 @@
 class Mote
   VERSION = "1.2.0"
 
-  # The regex have three alternative blocks that capture the embedded Ruby code,
-  # the rest is left as is.
+  # The regex has three alternative blocks that capture the embedded
+  # Ruby code. The rest is left as is.
   PATTERN = /
     ^[^\S\n]*(%)[^\S\n]*(.*?)(?:\n|\Z) | # Ruby evaluated lines
     (<\?)\s+(.*?)\s+\?>                | # Multiline Ruby blocks
