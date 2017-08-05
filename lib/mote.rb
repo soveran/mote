@@ -28,7 +28,7 @@ class Mote
     (\{\{)(.*?)\}\}                      # Ruby evaluated to strings
   /mx
 
-  def self.parse(template, context = self, vars = [], name = "template")
+  def self.src(template, vars = [])
     terms = template.split(PATTERN)
 
     code = "Proc.new do |params, __o| params ||= {}; __o ||= '';"
@@ -47,8 +47,10 @@ class Mote
     end
 
     code << "__o; end"
+  end
 
-    context.instance_eval(code, name, -1)
+  def self.parse(template, context = self, vars = [], name = "template")
+    context.instance_eval(src(template, vars), name, -1)
   end
 
   module Helpers
