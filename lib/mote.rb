@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 class Mote
-  VERSION = "1.2.0"
+  VERSION = "1.3.0"
 
   # The regex has three alternative blocks that capture the embedded
   # Ruby code. The rest is left as is.
