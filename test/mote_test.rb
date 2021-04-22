@@ -90,6 +90,14 @@ scope do
     example = Mote.parse("{{ user }}", context)
     assert_equal "Bruno", example.call
   end
+  
+  test "context with name" do
+    context = Object.new
+    def context.name; "Sebas"; end
+    
+    example = Mote.parse("{{ self.name }}", context)
+    assert_equal "Sebas", example.call
+  end
 
   test "locals" do
     example = Mote.parse("{{ user }}", TOPLEVEL_BINDING, [:user])

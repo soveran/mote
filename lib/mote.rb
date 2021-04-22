@@ -49,8 +49,8 @@ class Mote
     code << "__o; end"
   end
 
-  def self.parse(template, context = self, vars = [], name = "template")
-    context.instance_eval(src(template, vars), name, -1)
+  def self.parse(_template, _context = self, _vars = [], _name = "template")
+    _context.instance_eval(src(_template, _vars), _name, -1)
   end
 
   module Helpers
